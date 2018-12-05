@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trip Dashboard</title>
+
+<link data-th-href="@{/webjars/bulma/0.6.0/css/bulma.css}"
+	rel="stylesheet">
+<link rel="stylesheet"
+	data-th-href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}" />
+<script data-th-src="@{/webjars/timeago.js/3.0.0/dist/timeago.js}"></script>
+</head>
+<body>
+	<section class="hero is-primary is-bold">
+		<div class="hero-body">
+			<div class="container">
+				<h1 class="title">
+					<i class="fa fa-github-square" aria-hidden="true"></i>&nbsp;Trip
+					Dashboard
+				</h1>
+			</div>
+		</div>
+	</section>
+	<div class="container">
+		<table class="table is-hoverable is-fullwidth">
+			<thead>
+				<th>Trip ID</th>
+				<th>Origin</th>
+				<th>Destination</th>
+				<th>Bus</th>
+				<th>Bus Service</th>
+				<th>Date</th>
+				<th>Distance</th>
+			</thead>
+			<tbody>
+				<tr data-th-each="trip : ${trips}">
+					<td>[[${trip.tripId}]]</td>
+					<td><code>[[${trip.origin}]]</code></td>
+					<td><code>[[${trip.destination}]]</code></td>
+					<td><code>[[${trip.bus.name}]]</code></td>
+					<td><code>[[${trip.bus.busProvider.providerName}]]</code></td>
+					<td><time data-th-attr="datetime=${trip.tripDate}">[[${trip.tripDate}]]</time>
+					</td>
+					<td><code>[[${trip.distance}]] km</code></td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	<script>
+		var timeagoInstance = timeago();
+		var nodes = document.querySelectorAll('time');
+		timeagoInstance.render(nodes, 'en_US');
+	</script>
+</body>
+</html>
