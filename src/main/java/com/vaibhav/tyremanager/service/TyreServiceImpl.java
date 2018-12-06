@@ -21,4 +21,9 @@ public class TyreServiceImpl implements TyreService {
 		return tyreInventory.findAll();
 	}
 
+	@Override
+	public List<TyreInventory> wornOutTyres() {
+		return tyreInventory.findByThresholdFlag("Y");
+	}
+
 }
