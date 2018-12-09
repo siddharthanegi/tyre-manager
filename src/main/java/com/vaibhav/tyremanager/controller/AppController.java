@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vaibhav.tyremanager.dto.BusInventoryDTO;
+import com.vaibhav.tyremanager.dto.TyreInventoryDTO;
 import com.vaibhav.tyremanager.models.BusProvider;
 import com.vaibhav.tyremanager.models.PurchaseOrder;
 import com.vaibhav.tyremanager.models.Trip;
@@ -130,4 +132,24 @@ public class AppController {
 		return "worn_tyres";
 	}
 
+
+	@GetMapping(path="/getbusesbyprovider/{providerId}")
+	@ResponseBody
+	private List<BusInventoryDTO> getBusesByProvider(@PathVariable("providerId") Integer providerId){
+		List<BusInventoryDTO> list = busRepository.findByBusProviderId(providerId);
+		return list;
+	}
+	
+	@GetMapping(path="/search")
+	private String search(Model model){
+		model.addAttribute("providers", busProviderRepository.findAll());
+		return "bus_search";
+	}
+	
+	@GetMapping(path="/gettyresbybus/{busId}")
+	@ResponseBody
+	private List<TyreInventoryDTO> getTyresByBus(@PathVariable("busId") Integer busId){
+		return tyreService.getTyresByBus(busId);
+	}
+	
 }

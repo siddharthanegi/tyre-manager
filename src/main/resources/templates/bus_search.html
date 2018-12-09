@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Home</title>
+	<title>Bus Search</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -28,72 +28,52 @@
 	<link rel="stylesheet" type="text/css"  th:href="@{/css/util.css}">
 	<link rel="stylesheet" type="text/css" th:href="@{/css/main.css}">
 <!--===============================================================================================-->
+<link data-th-href="@{/webjars/bulma/0.6.0/css/bulma.css}"
+	rel="stylesheet">
+<link rel="stylesheet"
+	data-th-href="@{/webjars/font-awesome/4.7.0/css/font-awesome.min.css}" />
 </head>
 <body>
 
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form validate-form">
+			<form class="contact100-form validate-form" action="#" th:action="@{/home}" method="get">
 				<span class="contact100-form-title">
-					Tyre Management Home
+					Bus Search
 				</span>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/addtrip">
-						<span>
-							Add Trip
-						</span>
-					</a>
-				</div>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/newpurchaseorder">
-						<span>
-							New Order
-						</span>
-					</a>
-				</div>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="search">
-						<span>
-							Bus Search
-						</span>
-					</a>
-				</div>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/tripdashboard">
-						<span>
-							Trip Dashboard
-						</span>
-					</a>
-				</div>
-					<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/tyredashboard">
-						<span>
-							Tyre Dashboard
-						</span>
-					</a>
-				</div>
 
-					<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/providerdashboard">
-						<span>
-							Bus Provider Dashboard
-						</span>
-					</a>
+				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					<span class="label-input100">BUS PROVIDER*</span>
+					<div>
+						<select class="js-select2" id="providers" onchange="getBuses(this)">
+							<option selected disabled >SELECT A PROVIDER</option>
+							<option th:each="provider : ${providers}" th:value="${provider.providerId}"
+							th:text="${provider.providerName}"></option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
 				</div>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/purchaseorders">
-						<span>
-							Purchase Orders
-						</span>
-					</a>
+				
+				<div id ="buses" class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					 <span class="label-input100">BUSES *</span>
+					<div>
+						<select class="js-select2" id="bus" onchange="getTyres(this)">
+							<option selected disabled>SELECT A BUS</option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
 				</div>
-				<div class="wrap-input100 bg1 rs1-wrap-input100">
-					<a class="contact100-form-btn" href="/wornout">
+				
+				<div id="tyre">
+				</div>
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn">
 						<span>
-							Worn-Out Tyres
+							Home
+							<i class="fa fa-long-arrow-right m-l-7" aria-hidden="true"></i>
 						</span>
-					</a>
+					</button>
 				</div>
 			</form>
 		</div>
@@ -173,6 +153,47 @@
 
   gtag('config', 'UA-23581568-13');
 </script>
-
+<script>
+ function getBuses(sel){
+	 var url = "/getbusesbyprovider/"+sel.value;
+	 $("#bus").empty();
+	 $("#tyre").empty();
+	 $("#tyre").removeClass();
+	 $.get(url, function(data){
+		 var innerHtml = "";
+		 innerHtml += "<option selected disabled>SELECT A BUS</option>";
+		 for (var i in data){
+			 innerHtml +="<option value = '"+data[i].busId+"'>"+data[i].name+"</option>";
+		 }
+		 $("#bus").append(innerHtml);
+	 }, "json");
+ };
+ 
+</script>
+<script type="text/javascript">
+function getTyres(sel){
+	 var url = "/gettyresbybus/"+sel.value;
+	 $("#tyre").empty();
+	 $("#tyre").addClass("wrap-input100");
+	  $.get(url, function(data){
+		 var innerHtml = "";
+ 		 innerHtml += "<form class='contact100-form'>";
+ 		 innerHtml += "<table class='table input100 is-hoverable'>";
+ 		 innerHtml +=  "<tr  class = 'bg1'><th>Tyre ID</th><th>Brand</th><th>Manufacturer</th><th>Distance Travelled</th><th>Cost</th><th>Purchase Date</th></tr>";
+		 innerHtml += "<tbody>";
+		
+		 for (var i in data){
+			 innerHtml +="<tr><td>"+data[i].tyreId+"</td>";
+			 innerHtml +="<td>"+data[i].brandName+"</td>";
+			 innerHtml +="<td>"+data[i].manufacturerName+"</td>";
+			 innerHtml +="<td>"+data[i].distanceTravelled+"</td>";
+			 innerHtml +="<td>"+data[i].cost+"</td>";
+			 innerHtml +="<td>"+data[i].purchaseDate+"</td></tr>";
+		 }
+		 innerHtml += "</tbody></table></form>";
+		 $("#tyre").append(innerHtml);
+	 }, "json");
+};
+</script>
 </body>
 </html>
