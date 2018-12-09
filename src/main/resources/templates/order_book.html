@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Trip Dashboard</title>
+	<title>Purchase Orders</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -38,33 +38,32 @@
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form" action="#" th:action="@{/home}" method="get">
+		<form class="contact100-form" action="#" th:action="@{/home}" method="get">
 				<span class="contact100-form-title">
-					Trip Dashboard
+					Purchase Orders
 				</span>
 				<table class="table input100 is-hoverable">
 			<tr>
-				<th>Trip ID</th>
-				<th>Origin</th>
-				<th>Destination</th>
-				<th>Bus</th>
-				<th>Bus Service</th>
-				<th>Date</th>
-				<th>Distance</th>
+				<th>Order ID</th>
+				<th>Brand Name</th>
+				<th>Manufacturer</th>
+				<th>Quantity</th>
+				<th>Price</th>
+				<th>Order Date</th>
 			</tr>
 			<tbody>
-				<tr data-th-each="trip : ${trips}">
-					<td>[[${trip.tripId}]]</td>
-					<td>[[${trip.origin}]]</td>
-					<td>[[${trip.destination}]]</td>
-					<td>[[${trip.bus.name}]]</td>
-					<td>[[${trip.bus.busProvider.providerName}]]</td>
-					<td><time data-th-attr="date=${trip.tripDate}">[[${trip.tripDate}]]</time>
-					</td>
-					<td>[[${trip.distance}]] km</td>
+				<tr data-th-each="order : ${orders}">
+					<td>[[${order.id}]]</td>
+					<td>[[${order.brand.brandName}]]</td>
+					<td>[[${order.brand.tyreManufacturer.manufacturerName}]]</td>
+					<td>[[${order.quantity}]]</td>
+					<td>[[${order.price}]]</td>
+					<td>[[${order.orderDate}]]</td>
 				</tr>
 			</tbody>
 		</table>
+						<span class="contact100-form-title">
+				</span>
 				<div class="container-contact100-form-btn">
 					<button class="contact100-form-btn">
 						<span>

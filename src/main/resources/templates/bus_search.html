@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Trip Dashboard</title>
+	<title>Bus Search</title>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->
@@ -38,33 +38,35 @@
 
 	<div class="container-contact100">
 		<div class="wrap-contact100">
-			<form class="contact100-form" action="#" th:action="@{/home}" method="get">
+			<form class="contact100-form validate-form" action="#" th:action="@{/home}" method="get">
 				<span class="contact100-form-title">
-					Trip Dashboard
+					Bus Search
 				</span>
-				<table class="table input100 is-hoverable">
-			<tr>
-				<th>Trip ID</th>
-				<th>Origin</th>
-				<th>Destination</th>
-				<th>Bus</th>
-				<th>Bus Service</th>
-				<th>Date</th>
-				<th>Distance</th>
-			</tr>
-			<tbody>
-				<tr data-th-each="trip : ${trips}">
-					<td>[[${trip.tripId}]]</td>
-					<td>[[${trip.origin}]]</td>
-					<td>[[${trip.destination}]]</td>
-					<td>[[${trip.bus.name}]]</td>
-					<td>[[${trip.bus.busProvider.providerName}]]</td>
-					<td><time data-th-attr="date=${trip.tripDate}">[[${trip.tripDate}]]</time>
-					</td>
-					<td>[[${trip.distance}]] km</td>
-				</tr>
-			</tbody>
-		</table>
+
+				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					<span class="label-input100">BUS PROVIDER*</span>
+					<div>
+						<select class="js-select2" id="providers" onchange="getBuses(this)">
+							<option selected disabled >SELECT A PROVIDER</option>
+							<option th:each="provider : ${providers}" th:value="${provider.providerId}"
+							th:text="${provider.providerName}"></option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
+				</div>
+				
+				<div id ="buses" class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					 <span class="label-input100">BUSES *</span>
+					<div>
+						<select class="js-select2" id="bus" onchange="getTyres(this)">
+							<option selected disabled>SELECT A BUS</option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
+				</div>
+				
+				<div id="tyre">
+				</div>
 				<div class="container-contact100-form-btn">
 					<button class="contact100-form-btn">
 						<span>
@@ -151,6 +153,47 @@
 
   gtag('config', 'UA-23581568-13');
 </script>
-
+<script>
+ function getBuses(sel){
+	 var url = "/getbusesbyprovider/"+sel.value;
+	 $("#bus").empty();
+	 $("#tyre").empty();
+	 $("#tyre").removeClass();
+	 $.get(url, function(data){
+		 var innerHtml = "";
+		 innerHtml += "<option selected disabled>SELECT A BUS</option>";
+		 for (var i in data){
+			 innerHtml +="<option value = '"+data[i].busId+"'>"+data[i].name+"</option>";
+		 }
+		 $("#bus").append(innerHtml);
+	 }, "json");
+ };
+ 
+</script>
+<script type="text/javascript">
+function getTyres(sel){
+	 var url = "/gettyresbybus/"+sel.value;
+	 $("#tyre").empty();
+	 $("#tyre").addClass("wrap-input100");
+	  $.get(url, function(data){
+		 var innerHtml = "";
+ 		 innerHtml += "<form class='contact100-form'>";
+ 		 innerHtml += "<table class='table input100 is-hoverable'>";
+ 		 innerHtml +=  "<tr  class = 'bg1'><th>Tyre ID</th><th>Brand</th><th>Manufacturer</th><th>Distance Travelled</th><th>Cost</th><th>Purchase Date</th></tr>";
+		 innerHtml += "<tbody>";
+		
+		 for (var i in data){
+			 innerHtml +="<tr><td>"+data[i].tyreId+"</td>";
+			 innerHtml +="<td>"+data[i].brandName+"</td>";
+			 innerHtml +="<td>"+data[i].manufacturerName+"</td>";
+			 innerHtml +="<td>"+data[i].distanceTravelled+"</td>";
+			 innerHtml +="<td>"+data[i].cost+"</td>";
+			 innerHtml +="<td>"+data[i].purchaseDate+"</td></tr>";
+		 }
+		 innerHtml += "</tbody></table></form>";
+		 $("#tyre").append(innerHtml);
+	 }, "json");
+};
+</script>
 </body>
 </html>
