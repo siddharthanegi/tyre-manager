@@ -56,8 +56,8 @@ public class AppController {
 	
 	@GetMapping("/addtrip")
 	private String addTripView(Model model) {
-		model.addAttribute("buses", busRepository.findAll());
 		model.addAttribute("newTrip", new Trip());
+		model.addAttribute("providers", busProviderRepository.findAll());
 		return "add_trip";
 	}
 	
