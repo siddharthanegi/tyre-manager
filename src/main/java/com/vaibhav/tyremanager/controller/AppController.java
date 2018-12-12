@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.vaibhav.tyremanager.dto.BrandDTO;
 import com.vaibhav.tyremanager.dto.BusInventoryDTO;
 import com.vaibhav.tyremanager.dto.TyreInventoryDTO;
 import com.vaibhav.tyremanager.models.BusProvider;
@@ -24,6 +25,7 @@ import com.vaibhav.tyremanager.repository.IBusInventoryRepository;
 import com.vaibhav.tyremanager.repository.IBusProviderRepository;
 import com.vaibhav.tyremanager.repository.IPurchaseOrderRepository;
 import com.vaibhav.tyremanager.repository.ITyreBrandRepository;
+import com.vaibhav.tyremanager.repository.ITyreManufacturerRepository;
 import com.vaibhav.tyremanager.service.TripService;
 import com.vaibhav.tyremanager.service.TyreService;
 
@@ -36,6 +38,7 @@ public class AppController {
 	@Autowired private ITyreBrandRepository tyreBrandRepository;
 	@Autowired private IPurchaseOrderRepository purchaseOrderRepository;
 	@Autowired private TyreService tyreService;
+	@Autowired private ITyreManufacturerRepository tyreManufacturer;
 	
 	@RequestMapping(value = {"/","/home"})
 	private String home() {
@@ -71,7 +74,8 @@ public class AppController {
 	
 	@GetMapping("/newpurchaseorder")
 	private String purchaseOrder(Model model) {
-		model.addAttribute("brands", tyreBrandRepository.findAll());
+//		model.addAttribute("brands", tyreBrandRepository.findAll());
+		model.addAttribute("manufacturers", tyreManufacturer.findAll());
 		model.addAttribute("purchaseOrder", new PurchaseOrder());
 		return "purchase_order";
 	}
@@ -150,6 +154,12 @@ public class AppController {
 	@ResponseBody
 	private List<TyreInventoryDTO> getTyresByBus(@PathVariable("busId") Integer busId){
 		return tyreService.getTyresByBus(busId);
+	}
+	
+	@GetMapping(path="/getbrandsbymanufacturer/{manufacturerId}")
+	@ResponseBody
+	private List<BrandDTO> getBrandsByManufacturer(@PathVariable("manufacturerId") Integer manufacturerId){
+		return tyreBrandRepository.getBrandsByManufacturer(manufacturerId);
 	}
 	
 }

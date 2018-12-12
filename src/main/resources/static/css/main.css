@@ -262,6 +262,18 @@ iframe {
   padding-right: 15px;
 }
 
+.no-rec {
+  display: block;
+  width: 100%;
+  font-family: Montserrat-Black;
+  font-size: 20px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+  padding-bottom: 59px;
+}
+
+
 
 /*---------------------------------------------*/
 input.input100 {

@@ -48,11 +48,12 @@
 					<span class="label-input100">DESTINATION *</span>
 					<input class="input100" type="text" name="name" placeholder="Enter Destination" th:field="*{destination}">
 				</div>
-								<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+				
+				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
 					<span class="label-input100">BUS PROVIDER*</span>
 					<div>
-						<select class="js-select2" id="providers" onchange="getBuses(this)">
-							<option selected disabled >SELECT A PROVIDER</option>
+						<select class="js-select2" id="providers" onchange="getBuses(this)" required>
+							<option selected disabled value="" >SELECT A PROVIDER</option>
 							<option th:each="provider : ${providers}" th:value="${provider.providerId}"
 							th:text="${provider.providerName}"></option>
 						</select>
@@ -63,19 +64,19 @@
 				<div id ="buses" class="wrap-input100 input100-select bg1 rs1-wrap-input100">
 					 <span class="label-input100">BUSES *</span>
 					<div>
-						<select class="js-select2" id="bus" th:field="*{bus.busId}">
-							<option selected disabled value="#">SELECT A BUS</option>
+						<select class="js-select2" id="bus" th:field="*{bus.busId}" required>
+							<option selected disabled value="">SELECT A BUS</option>
 						</select>
 						<div class="dropDownSelect2"></div>
 					</div>
 				</div>
 				
-				<div class="wrap-input100 bg1 rs1-wrap-input100" data-validate="Please enter distance">
+				<div class="wrap-input100 bg1 rs1-wrap-input100 validate-input" data-validate="Please enter distance">
 					<span class="label-input100">DISTANCE *</span>
 					<input class="input100" type="number" name="distance" placeholder="Enter Distance" th:field="*{distance}">
 				</div>
 				
-				<div class="wrap-input100 bg1 rs1-wrap-input100" data-validate="Please enter date of travel">
+				<div class="wrap-input100 bg1 rs1-wrap-input100 validate-input" data-validate="Please enter date of travel">
 					<span class="label-input100">DATE *</span>
 					<input class="input100" type="date" name="date" placeholder="Enter travel date" th:field="*{tripDateStr}">
 				</div>
@@ -172,7 +173,7 @@
 	 $("#bus").empty();
 	 $.get(url, function(data){
 		 var innerHtml = "";
-		 innerHtml += "<option selected disabled>SELECT A BUS</option>";
+		 innerHtml += "<option selected disabled value=''>SELECT A BUS</option>";
 		 for (var i in data){
 			 innerHtml +="<option value = '"+data[i].busId+"'>"+data[i].name+"</option>";
 		 }
