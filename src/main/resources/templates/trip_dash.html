@@ -59,8 +59,7 @@
 					<td>[[${trip.destination}]]</td>
 					<td>[[${trip.bus.name}]]</td>
 					<td>[[${trip.bus.busProvider.providerName}]]</td>
-					<td><time data-th-attr="date=${trip.tripDate}">[[${trip.tripDate}]]</time>
-					</td>
+					<td th:text="${#dates.format(trip.tripDate, 'MM/dd/yyyy')}"></td>
 					<td>[[${trip.distance}]] km</td>
 				</tr>
 			</tbody>

@@ -42,7 +42,10 @@
 				<span class="contact100-form-title">
 					Purchase Orders
 				</span>
-				<table class="table input100 is-hoverable">
+				<span class="no-rec"  th:if = "${#lists.isEmpty(orders)}">
+					NO RECORDS FOUND
+				</span>
+				<table class="table input100 is-hoverable" th:if = "${not #lists.isEmpty(orders)}">
 			<tr>
 				<th>Order ID</th>
 				<th>Brand Name</th>
@@ -58,7 +61,7 @@
 					<td>[[${order.brand.tyreManufacturer.manufacturerName}]]</td>
 					<td>[[${order.quantity}]]</td>
 					<td>[[${order.price}]]</td>
-					<td>[[${order.orderDate}]]</td>
+					<td th:text="${#dates.format(order.orderDate, 'MM/dd/yyyy')}"></td>
 				</tr>
 			</tbody>
 		</table>

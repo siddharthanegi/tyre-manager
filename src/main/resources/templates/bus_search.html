@@ -183,7 +183,12 @@ function getTyres(sel){
 		 innerHtml += "<tbody>";
 		
 		 for (var i in data){
-			 innerHtml +="<tr><td>"+data[i].tyreId+"</td>";
+			 if(data[i].thresholdFlag == 'Y'){
+				 innerHtml +="<tr class = 'bg2'>";
+			 }else{
+				 innerHtml +="<tr>";
+			 }
+			 innerHtml +="<td>"+data[i].tyreId+"</td>";
 			 innerHtml +="<td>"+data[i].brandName+"</td>";
 			 innerHtml +="<td>"+data[i].manufacturerName+"</td>";
 			 innerHtml +="<td>"+data[i].distanceTravelled+"</td>";

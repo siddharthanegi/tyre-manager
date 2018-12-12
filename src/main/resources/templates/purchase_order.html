@@ -38,28 +38,40 @@
 				<span class="contact100-form-title">
 					New Order
 				</span>
-				<div class="wrap-input100 input100-select bg1">
-					<span class="label-input100">BRAND *</span>
+			
+				<div class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					<span class="label-input100">MANUFACTURER *</span>
 					<div>
-						<select class="js-select2" name="service" th:field="*{brand.brandId}">
-							<option th:each="brand : ${brands}" th:value="${brand.brandId}"
-							th:text="${brand.tyreManufacturer.manufacturerName +'-' + brand.brandName}"></option>
+						<select class="js-select2" id="manufacturers" onchange="getBrands(this)" required>
+							<option selected disabled value="" >SELECT A MANUFACTURER</option>
+							<option th:each="manufacturer : ${manufacturers}" th:value="${manufacturer.manufacturerId}"
+							th:text="${manufacturer.manufacturerName}"></option>
+						</select>
+						<div class="dropDownSelect2"></div>
+					</div>
+				</div>
+				
+				<div id ="buses" class="wrap-input100 input100-select bg1 rs1-wrap-input100">
+					 <span class="label-input100">BRANDS *</span>
+					<div>
+						<select class="js-select2" id="brand" th:field="*{brand.brandId}" required>
+							<option selected disabled value="">SELECT A BRAND</option>
 						</select>
 						<div class="dropDownSelect2"></div>
 					</div>
 				</div>
 								
-				<div class="wrap-input100 bg1 rs1-wrap-input100" data-validate="Please enter quantity">
+				<div class="wrap-input100 bg1 rs1-wrap-input100 validate-input" data-validate="Please enter quantity">
 					<span class="label-input100">QUANTITY *</span>
 					<input class="input100" type="number" name="quantity" placeholder="Enter Quantity" th:field="*{quantity}">
 				</div>
 				
-				<div class="wrap-input100 bg1 rs1-wrap-input100" data-validate="Please enter date of order">
+				<div class="wrap-input100 bg1 rs1-wrap-input100 validate-input" data-validate="Please enter date of order">
 					<span class="label-input100">DATE *</span>
 					<input class="input100" type="date" name="date" placeholder="Enter travel date" th:field="*{orderDateStr}">
 				</div>
 
-				<div class="wrap-input100 bg1 rs1-wrap-input100" data-validate="Please enter price per tyre">
+				<div class="wrap-input100 bg1 rs1-wrap-input100 validate-input" data-validate="Please enter price per tyre">
 					<span class="label-input100">PRICE *</span>
 					<input class="input100" type="number" name="price" placeholder="Enter price" th:field="*{price}">
 				</div>
@@ -150,14 +162,20 @@
 
   gtag('config', 'UA-23581568-13');
 </script>
-<!-- <script type="text/javascript">
- 	function getPrice(obj){
- 		var brandId = obj.value;
- 		 $.get("demo_test.asp", function(data, status){
- 	        alert("Data: " + data + "\nStatus: " + status);
- 	    });
- 	}
-
-</script> -->
+<script>
+ function getBrands(sel){
+	 var url = "/getbrandsbymanufacturer/"+sel.value;
+	 $("#brand").empty();
+	 $.get(url, function(data){
+		 var innerHtml = "";
+		 innerHtml += "<option selected disabled value=''>SELECT A BRAND</option>";
+		 for (var i in data){
+			 innerHtml +="<option value = '"+data[i].brandId+"'>"+data[i].brandName+"</option>";
+		 }
+		 $("#brand").append(innerHtml);
+	 }, "json");
+ };
+ 
+</script>
 </body>
 </html>

@@ -159,6 +159,7 @@ iframe {
 
 .bg0 {background-color: #fff;}
 .bg1 {background-color: #f7f7f7;}
+.bg2 {background-color: #ff8787;}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -260,6 +261,18 @@ iframe {
   line-height: 1.2;
   padding-right: 15px;
 }
+
+.no-rec {
+  display: block;
+  width: 100%;
+  font-family: Montserrat-Black;
+  font-size: 20px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: center;
+  padding-bottom: 59px;
+}
+
 
 
 /*---------------------------------------------*/
