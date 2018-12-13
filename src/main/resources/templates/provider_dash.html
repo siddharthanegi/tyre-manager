@@ -42,7 +42,11 @@
 				<span class="contact100-form-title">
 					Provider Dashboard
 				</span>
-				<table class="table input100 is-hoverable">
+				<span
+					class="no-rec" th:if="${#lists.isEmpty(providers)}"> NO RECORDS
+					FOUND 
+				</span>
+				<table class="table input100 is-hoverable" th:if="${not #lists.isEmpty(providers)}">
 			<tr>
 				<th>Provider ID</th>
 				<th>Provider Name</th>
