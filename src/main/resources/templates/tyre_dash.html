@@ -42,7 +42,11 @@
 				<span class="contact100-form-title">
 					Tyre Dashboard
 				</span>
-				<table class="table input100 is-hoverable">
+				<span
+					class="no-rec" th:if="${#lists.isEmpty(brands)}"> NO RECORDS
+					FOUND 
+				</span>
+				<table class="table input100 is-hoverable"  th:if="${not #lists.isEmpty(brands)}">
 			<tr>
 				<th>Brand ID</th>
 				<th>Manufacturer</th>

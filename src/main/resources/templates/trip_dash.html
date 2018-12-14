@@ -42,7 +42,11 @@
 				<span class="contact100-form-title">
 					Trip Dashboard
 				</span>
-				<table class="table input100 is-hoverable">
+				<span
+					class="no-rec" th:if="${#lists.isEmpty(trips)}"> NO RECORDS
+					FOUND 
+				</span>
+				<table class="table input100 is-hoverable" th:if="${not #lists.isEmpty(trips)}">
 			<tr>
 				<th>Trip ID</th>
 				<th>Origin</th>
